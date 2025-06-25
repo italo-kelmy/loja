@@ -14,11 +14,12 @@ public class SourcerConfiguration {
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:mysql://host.docker.internal:3306/produtoseletronicos?useSSL=false&serverTimezone=UTC")
+                .url("jdbc:mysql://172.22.48.1:3306/produtoseletronicos?useSSL=false&serverTimezone=UTC")
                 .username("italo")
                 .password("2610!!")
                 .build();
     }
+
 
 
 
