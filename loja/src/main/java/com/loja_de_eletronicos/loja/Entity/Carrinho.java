@@ -15,10 +15,6 @@ public class Carrinho {
     private String categoria;
     private double valorTotal;
 
-    @ManyToOne(fetch = FetchType.LAZY)  // define o relacionamento
-    @JoinColumn(name = "usuario_id")    // nome da coluna FK no BD
-    private Usuarios usuario;
-
     public Carrinho() {
 
     }
