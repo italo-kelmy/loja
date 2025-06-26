@@ -29,7 +29,6 @@ public class CarrinhoService {
                 .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
 
         Carrinho carrinho = new Carrinho(
-                produto.getId(),
                 produto.getNome(),
                 produto.getValor(),
                 quantidade,

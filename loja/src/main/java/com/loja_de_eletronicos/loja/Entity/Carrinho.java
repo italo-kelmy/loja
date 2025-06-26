@@ -21,8 +21,7 @@ public class Carrinho {
 
     }
 
-    public Carrinho(Long id, String nome, double valor, int quantidade, String categoria) {
-        this.id = id;
+    public Carrinho( String nome, double valor, int quantidade, String categoria) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
