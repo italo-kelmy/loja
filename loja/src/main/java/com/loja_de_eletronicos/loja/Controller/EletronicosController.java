@@ -42,9 +42,9 @@ public class EletronicosController {
     }
 
     @PostMapping("/produtos/adicionarNoCarrinho")
-    public ResponseEntity<?> adicionarCarrinho(@RequestBody CarrinhoRequest request) {
-
-        return carrinhoProdutos.adicionarNoCarrinho(request.getProdutoId(), request.getQuantidade());
+    public ResponseEntity<?> adicionarCarrinho(@RequestBody ProdutosEletronicos request) {
+        int quantidade = request.getQuantidade();
+        return carrinhoProdutos.adicionarNoCarrinho(request.getId(), quantidade);
     }
 
     @GetMapping("/produtos/verCarrinho")
