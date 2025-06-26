@@ -65,7 +65,7 @@ public class CarrinhoService {
         ProdutosEletronicos produtosEletronicos = repository.findById(eletronicos.getId()).orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
 
 
-        if (produtosEletronicos.getQuantidade() < quantidade) {
+        if (produtosEletronicos.getQuantidade() > quantidade) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Quantidade indisponivel");
         }
 
