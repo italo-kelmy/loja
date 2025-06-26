@@ -1,5 +1,6 @@
 package com.loja_de_eletronicos.loja.Controller;
 
+import com.loja_de_eletronicos.loja.Entity.Carrinho;
 import com.loja_de_eletronicos.loja.Entity.ProdutosEletronicos;
 
 import com.loja_de_eletronicos.loja.Service.CarrinhoService;
@@ -40,7 +41,7 @@ public class EletronicosController {
     }
 
     @PostMapping("/produtos/adicionarNoCarrinho")
-    public ResponseEntity<?> adicionarCarrinho(@RequestBody ProdutosEletronicos request) {
+    public ResponseEntity<?> adicionarCarrinho(@RequestBody Carrinho request) {
 
         int quantidade = request.getQuantidade();
         return service.adicionarNoCarrinho(request, quantidade);

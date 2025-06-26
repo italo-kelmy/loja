@@ -1,5 +1,6 @@
 package com.loja_de_eletronicos.loja.Service;
 
+import com.loja_de_eletronicos.loja.Entity.Carrinho;
 import com.loja_de_eletronicos.loja.Entity.ProdutosEletronicos;
 import com.loja_de_eletronicos.loja.Entity.Usuarios;
 import com.loja_de_eletronicos.loja.Repository.EletronicosRepository;
@@ -44,7 +45,7 @@ public class EletronicosService {
     }
 
 
-    public ResponseEntity<?> adicionarNoCarrinho(ProdutosEletronicos produtosEletronicos, int quantidade) {
+    public ResponseEntity<?> adicionarNoCarrinho(Carrinho produtosEletronicos, int quantidade) {
         ProdutosEletronicos produto = repository.findById(produtosEletronicos.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
 
