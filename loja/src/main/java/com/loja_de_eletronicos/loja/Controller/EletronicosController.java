@@ -41,7 +41,7 @@ public class EletronicosController {
     }
 
     @PostMapping("/produtos/adicionarNoCarrinho")
-    public ResponseEntity<?> adicionarCarrinho(@RequestBody Carrinho request) {
+    public ResponseEntity<?> adicionarCarrinho(@RequestBody ProdutosEletronicos request) {
 
         int quantidade = request.getQuantidade();
         return service.adicionarNoCarrinho(request, quantidade);
