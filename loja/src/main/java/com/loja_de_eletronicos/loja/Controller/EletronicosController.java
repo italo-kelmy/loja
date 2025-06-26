@@ -1,5 +1,6 @@
 package com.loja_de_eletronicos.loja.Controller;
 
+import com.loja_de_eletronicos.loja.Component.CarrinhoRequest;
 import com.loja_de_eletronicos.loja.Entity.Carrinho;
 import com.loja_de_eletronicos.loja.Entity.ProdutosEletronicos;
 import com.loja_de_eletronicos.loja.Entity.Usuarios;
@@ -17,11 +18,13 @@ public class EletronicosController {
 
     private final EletronicosService service;
     private final CarrinhoService carrinhoProdutos;
+    private final CarrinhoRequest request;
 
     @Autowired
-    public EletronicosController(EletronicosService service, CarrinhoService carrinhoProdutos) {
+    public EletronicosController(EletronicosService service, CarrinhoService carrinhoProdutos, CarrinhoRequest request) {
         this.service = service;
         this.carrinhoProdutos = carrinhoProdutos;
+        this.request = request;
     }
 
     @GetMapping("/produtos")
@@ -42,8 +45,8 @@ public class EletronicosController {
 
     @PostMapping("/produtos/adicionarNoCarrinho")
     public ResponseEntity<?> adicionarCarrinho(@RequestBody ProdutosEletronicos produtosEletronicos) {
-        int quantidade = produtosEletronicos.getQuantidade();
-        return service.adicionarNoCarrrinho(produtosEletronicos, quantidade);
+
+        return service.adicionarNoCarrrinho(request.getProdutoId(), request.getQuantidade());
     }
 
     @GetMapping("/produtos/verCarrinho")
