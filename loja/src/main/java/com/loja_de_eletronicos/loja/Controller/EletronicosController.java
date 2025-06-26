@@ -2,7 +2,6 @@ package com.loja_de_eletronicos.loja.Controller;
 
 import com.loja_de_eletronicos.loja.Component.CarrinhoRequest;
 
-import com.loja_de_eletronicos.loja.Component.ComprarRequest;
 import com.loja_de_eletronicos.loja.Entity.ProdutosEletronicos;
 
 import com.loja_de_eletronicos.loja.Service.CarrinhoService;
@@ -59,9 +58,10 @@ public class EletronicosController {
     }
 
     @PostMapping("/produtos/comprar")
-    public ResponseEntity<?> finalizarCompra(@RequestBody ComprarRequest comprarRequest) {
+    public ResponseEntity<?> finalizarCompra(@RequestBody ProdutosEletronicos comprarRequest) {
 
-        return carrinhoProdutos.comprarProduto(comprarRequest.getId(), comprarRequest.getQuantidade());
+        int quantidade = comprarRequest.getQuantidade();
+        return carrinhoProdutos.comprarProduto(comprarRequest, quantidade);
     }
 
 }

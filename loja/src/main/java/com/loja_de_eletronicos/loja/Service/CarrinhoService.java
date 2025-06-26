@@ -61,8 +61,8 @@ public class CarrinhoService {
     }
 
 
-    public ResponseEntity<?> comprarProduto(Long produtoId, int quantidade) {
-        ProdutosEletronicos produtosEletronicos = repository.findById(produtoId).orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+    public ResponseEntity<?> comprarProduto(ProdutosEletronicos produtoId, int quantidade) {
+        ProdutosEletronicos produtosEletronicos = repository.findById(produtoId.getId()).orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
 
         if (quantidade <= 0) {
             return ResponseEntity.badRequest().body("Quantidade inválida");
