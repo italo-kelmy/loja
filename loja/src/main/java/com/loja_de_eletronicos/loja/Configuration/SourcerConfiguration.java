@@ -15,8 +15,8 @@ public class SourcerConfiguration {
     public DataSource dataSource() {
         return DataSourceBuilder.create()
                 .url("jdbc:postgresql://dpg-d1e6vvemcj7s73a17a10-a.oregon-postgres.render.com:5432/loja_postgres_7q1x")
-                .username("italo")
-                .password("2610!!")
+                .username("loja_postgres_7q1x_user")
+                .password("ZNlYHGWFJfczTNUsW2zyK1tJY2plEDpi")
                 .build();
     }
 
