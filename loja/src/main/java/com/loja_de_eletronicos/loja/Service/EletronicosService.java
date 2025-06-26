@@ -48,12 +48,11 @@ public class EletronicosService {
         ProdutosEletronicos produto = repository.findById(produtosEletronicos.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
 
-        carrinhoService.adicionarNoCarrinho(produtosEletronicos, quantidade);
-
         if (produto.getQuantidade() < quantidade) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Quantidade insuficente");
         }
 
+        carrinhoService.adicionarNoCarrinho(produto, quantidade);
         return ResponseEntity.ok("Produto adicionado ao carrinho");
     }
 
