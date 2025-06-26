@@ -24,9 +24,7 @@ public class CarrinhoService {
         this.repository = repository;
     }
 
-    public ResponseEntity<?> adicionarNoCarrinho(Long produtoId, int quantidade) {
-        ProdutosEletronicos produto = repository.findById(produtoId)
-                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+    public void adicionarNoCarrinho(ProdutosEletronicos produto, int quantidade) {
 
         Carrinho carrinho = new Carrinho(
                 produto.getNome(),
@@ -39,7 +37,6 @@ public class CarrinhoService {
         // Salva no banco
         carrinhorepository.save(carrinho);
 
-        return ResponseEntity.ok("Produto adicionado ao carrinho");
     }
 
 
@@ -54,11 +51,8 @@ public class CarrinhoService {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Carrinho está vázio");
         }
 
-        for (Carrinho carrinho1 : carrinhoList) {
-            return ResponseEntity.ok(carrinho1);
 
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falha ao carregar o carrinho");
+        return ResponseEntity.ok(carrinhoList);
     }
 
 

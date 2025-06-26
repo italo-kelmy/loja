@@ -14,9 +14,9 @@ public class SourcerConfiguration {
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:mysql://mysql.railway.internal:3306/produtoseletronicos")
-                .username("root")
-                .password("dKLXSjpiPyhBlMvebZhNgyaoFWKylhKG")
+                .url("jdbc:mysql://localhost:3306/produtoseletronicos?useSSL=false&serverTimezone=UTC")
+                .username("italo")
+                .password("2610!!")
                 .build();
     }
 

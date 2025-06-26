@@ -79,6 +79,7 @@ public class Carrinho {
 
 
 
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Carrinho carrinho)) return false;
