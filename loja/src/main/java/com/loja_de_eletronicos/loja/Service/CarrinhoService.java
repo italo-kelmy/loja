@@ -73,9 +73,8 @@ public class CarrinhoService {
         }
 
 
-        int comprado = produtosEletronicos.getQuantidade() - quantidade;
+        produtosEletronicos.setQuantidade(produtosEletronicos.getQuantidade() - quantidade);
 
-        produtosEletronicos.setQuantidade(comprado);
         repository.save(produtosEletronicos);
 
         return ResponseEntity.ok("Compra efetuada com sucesso");
