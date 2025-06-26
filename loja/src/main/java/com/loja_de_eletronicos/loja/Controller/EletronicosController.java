@@ -1,7 +1,5 @@
 package com.loja_de_eletronicos.loja.Controller;
 
-import com.loja_de_eletronicos.loja.Component.CarrinhoRequest;
-
 import com.loja_de_eletronicos.loja.Entity.ProdutosEletronicos;
 
 import com.loja_de_eletronicos.loja.Service.CarrinhoService;
