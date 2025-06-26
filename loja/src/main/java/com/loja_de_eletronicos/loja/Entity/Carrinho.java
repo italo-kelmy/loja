@@ -15,8 +15,6 @@ public class Carrinho {
     private String categoria;
     private double valorTotal;
 
-    @Version
-    private Integer version;
 
 
     public Carrinho() {
