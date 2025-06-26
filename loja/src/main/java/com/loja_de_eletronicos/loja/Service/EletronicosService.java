@@ -44,13 +44,7 @@ public class EletronicosService {
     }
 
 
-    public ResponseEntity<?> adicionarNoCarrrinho(Long id, int quantidade) {
 
-        ProdutosEletronicos eletronicos = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
-
-        carrinhoService.adicionarNoCarrinho(eletronicos, quantidade);
-        return ResponseEntity.ok("Produto adicionado ao carrinho");
-    }
 
     public ResponseEntity<?> limparCarrinho() {
         carrinhoService.limparCarrinho();

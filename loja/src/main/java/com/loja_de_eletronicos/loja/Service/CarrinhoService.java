@@ -24,16 +24,21 @@ public class CarrinhoService {
         this.repository = repository;
     }
 
-    public void adicionarNoCarrinho(ProdutosEletronicos produtosEletronicos, int quantidade) {
-        Carrinho carrinho1 = new Carrinho(
-                produtosEletronicos.getId(),
-                produtosEletronicos.getNome(),
-                produtosEletronicos.getValor(),
-                quantidade,
-                produtosEletronicos.getCategoria()
-        );
+    public ResponseEntity<?> adicionarNoCarrinho(Long produtoId, int quantidade) {
+        ProdutosEletronicos produto = repository.findById(produtoId)
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
 
-        carrinhorepository.save(carrinho1);
+        Carrinho carrinho = new Carrinho();
+        carrinho.setNome(produto.getNome());
+        carrinho.setValor(produto.getValor());
+        carrinho.setQuantidade(quantidade);
+        carrinho.setCategoria(produto.getCategoria());
+        carrinho.setValorTotal(produto.getValor() * quantidade);
+
+        // Salva no banco
+        carrinhorepository.save(carrinho);
+
+        return ResponseEntity.ok("Produto adicionado ao carrinho");
     }
 
 
@@ -66,7 +71,6 @@ public class CarrinhoService {
 
 
         int comprado = produtosEletronicos.getQuantidade() - quantidade;
-
 
         produtosEletronicos.setQuantidade(comprado);
         repository.save(produtosEletronicos);
