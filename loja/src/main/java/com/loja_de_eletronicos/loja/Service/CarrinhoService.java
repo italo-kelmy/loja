@@ -24,22 +24,22 @@ public class CarrinhoService {
         this.repository = repository;
     }
 
-    public ResponseEntity<?> adicionarNoCarrinho(ProdutosEletronicos produtoId, int quantidade) {
-        ProdutosEletronicos produto = repository.findById(produtoId.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+    public void adicionarNoCarrinho(ProdutosEletronicos produtoId, int quantidade) {
 
-        Carrinho carrinho = new Carrinho(produto.getId(),
-                produto.getNome(),
+        Carrinho carrinho = new Carrinho(produtoId.getId(),
+                produtoId.getNome(),
                 produtoId.getValor(),
                 quantidade,
-                produto.getCategoria()
+                produtoId.getCategoria()
         );
 
         // Salva no banco
         carrinhorepository.save(carrinho);
 
-        return ResponseEntity.ok("Produto adicionado ao carrinho");
     }
+
+
+
 
 
     public void limparCarrinho() {
