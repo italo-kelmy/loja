@@ -7,6 +7,10 @@ public class CarrinhoRequest {
     private Long produtoId;
     private int quantidade;
 
+
+
+
+
     public Long getProdutoId() {
         return produtoId;
     }

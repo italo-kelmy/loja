@@ -28,12 +28,14 @@ public class CarrinhoService {
         ProdutosEletronicos produto = repository.findById(produtoId)
                 .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
 
-        Carrinho carrinho = new Carrinho();
-        carrinho.setNome(produto.getNome());
-        carrinho.setValor(produto.getValor());
-        carrinho.setQuantidade(quantidade);
-        carrinho.setCategoria(produto.getCategoria());
-        carrinho.setValorTotal(produto.getValor() * quantidade);
+        Carrinho carrinho = new Carrinho(
+                produto.getId(),
+                produto.getNome(),
+                produto.getValor(),
+                quantidade,
+                produto.getCategoria()
+        );
+
 
         // Salva no banco
         carrinhorepository.save(carrinho);
