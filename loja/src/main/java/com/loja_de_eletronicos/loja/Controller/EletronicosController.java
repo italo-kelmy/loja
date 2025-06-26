@@ -18,13 +18,11 @@ public class EletronicosController {
 
     private final EletronicosService service;
     private final CarrinhoService carrinhoProdutos;
-    private final CarrinhoRequest request;
 
     @Autowired
-    public EletronicosController(EletronicosService service, CarrinhoService carrinhoProdutos, CarrinhoRequest request) {
+    public EletronicosController(EletronicosService service, CarrinhoService carrinhoProdutos) {
         this.service = service;
         this.carrinhoProdutos = carrinhoProdutos;
-        this.request = request;
     }
 
     @GetMapping("/produtos")
@@ -44,7 +42,7 @@ public class EletronicosController {
     }
 
     @PostMapping("/produtos/adicionarNoCarrinho")
-    public ResponseEntity<?> adicionarCarrinho(@RequestBody ProdutosEletronicos produtosEletronicos) {
+    public ResponseEntity<?> adicionarCarrinho(@RequestBody CarrinhoRequest request) {
 
         return carrinhoProdutos.adicionarNoCarrinho(request.getProdutoId(), request.getQuantidade());
     }
