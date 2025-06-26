@@ -54,7 +54,6 @@ public class EletronicosService {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Quantidade insuficente");
         }
 
-        repository.save(produto);
         return ResponseEntity.ok("Produto adicionado ao carrinho");
     }
 
