@@ -1,14 +1,14 @@
 package com.loja_de_eletronicos.loja.Controller;
 
 import com.loja_de_eletronicos.loja.Component.CarrinhoRequest;
-import com.loja_de_eletronicos.loja.Entity.Carrinho;
+
 import com.loja_de_eletronicos.loja.Entity.ProdutosEletronicos;
-import com.loja_de_eletronicos.loja.Entity.Usuarios;
+
 import com.loja_de_eletronicos.loja.Service.CarrinhoService;
 import com.loja_de_eletronicos.loja.Service.EletronicosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
