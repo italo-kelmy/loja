@@ -14,7 +14,7 @@ public class SourcerConfiguration {
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:postgresql://dpg-d1e6vvemcj7s73a17a10-a.oregon-postgres.render.com:5432/loja_postgres_7q1x")
+                .url("jdbc:postgresql://dpg-d1eccauuk2gs73ai4s1g-a.oregon-postgres.render.com:5432/loja_postgress")
                 .username("loja_postgres_7q1x_user")
                 .password("ZNlYHGWFJfczTNUsW2zyK1tJY2plEDpi")
                 .build();
