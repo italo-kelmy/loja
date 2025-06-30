@@ -14,19 +14,22 @@ public class Carrinho {
     private int quantidade;
     private String categoria;
     private double valorTotal;
-
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuarios usuario;
 
 
     public Carrinho() {
 
     }
 
-    public Carrinho( String nome, double valor, int quantidade, String categoria) {
+    public Carrinho( String nome, double valor, int quantidade, String categoria, Usuarios usuario) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
         this.categoria = categoria;
         this.valorTotal = valor * quantidade;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -77,8 +80,13 @@ public class Carrinho {
         this.valorTotal = valorTotal;
     }
 
+    public Usuarios getUsuario() {
+        return usuario;
+    }
 
-
+    public void setUsuario(Usuarios usuario) {
+        this.usuario = usuario;
+    }
 
     @Override
     public boolean equals(Object o) {
