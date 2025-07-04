@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: loja
+  cloud:
+    config:
+      uri: http://localhost:8888  # URL do seu Config Server
+      fail-fast: true
+  profiles:
+    active: prod  # Pode ser sobrescrito por variável de ambiente
