@@ -1,15 +1,13 @@
 package com.loja_de_eletronicos.loja.Entity;
 
-import jakarta.persistence.*;
-
-import java.util.Objects;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "produtos_eletronicos")
 public class ProdutosEletronicos {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String categoria;
     private String nome;
@@ -17,13 +15,11 @@ public class ProdutosEletronicos {
     private double valor;
     private String descricao;
 
-
     public ProdutosEletronicos(){
 
     }
 
-
-    public ProdutosEletronicos(Long id, String categoria, String nome, int quantidade,double valor, String descricao) {
+    public ProdutosEletronicos(Long id, String categoria, String nome, int quantidade, double valor, String descricao) {
         this.id = id;
         this.categoria = categoria;
         this.nome = nome;
@@ -78,17 +74,5 @@ public class ProdutosEletronicos {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        ProdutosEletronicos that = (ProdutosEletronicos) o;
-        return getQuantidade() == that.getQuantidade() && Double.compare(getValor(), that.getValor()) == 0 && Objects.equals(getId(), that.getId()) && Objects.equals(getCategoria(), that.getCategoria()) && Objects.equals(getNome(), that.getNome()) && Objects.equals(getDescricao(), that.getDescricao());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getCategoria(), getNome(), getQuantidade(), getValor(), getDescricao());
     }
 }

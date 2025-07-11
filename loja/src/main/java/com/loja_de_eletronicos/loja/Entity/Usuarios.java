@@ -1,6 +1,9 @@
 package com.loja_de_eletronicos.loja.Entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,10 +12,8 @@ import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
-@Table(name = "usuarios")
 public class Usuarios {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull(message = "Usuário é obrigátorio")
     private String usuario;
@@ -23,20 +24,16 @@ public class Usuarios {
     @Email(message = "Formato válido: exemploemail@hotmail.com")
     private String email;
     @NotNull(message = "Cep é obrigátorio")
-    @Pattern(regexp = "^\\d{5}-\\d{3}$")
+    @Pattern(regexp = "^\\d{5}-\\d{3}$", message = "Formato válido: XXXXX-XXX")
     private String cep;
-    @NotNull(message = "Número de telefone é obrigátorio")
-    @Pattern(regexp = "^\\d{2} \\d{4,5}-\\d{4}$", message = "Formato válido: xx xxxxx-xxxx")
+    @NotNull(message = "Telefone é obrigátorio")
+    @Pattern(regexp = "^\\d{2} \\d{4,5}-\\d{4}$")
     private String telefone;
 
-
-
-
-
-
-    public Usuarios() {
+    public Usuarios(){
 
     }
+
 
     public Usuarios(Long id, String usuario, String senha, String email, String cep, String telefone) {
         this.id = id;
@@ -45,7 +42,6 @@ public class Usuarios {
         this.email = email;
         this.cep = cep;
         this.telefone = telefone;
-
     }
 
     public Long getId() {
