@@ -11,22 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UsuariosController {
-
-    private final UsuariosService service;
+    private final UsuariosService usuariosService;
 
     @Autowired
-    public UsuariosController(UsuariosService service) {
-        this.service = service;
+    public UsuariosController(UsuariosService usuariosService) {
+        this.usuariosService = usuariosService;
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<?> cadastro_de_usuario(@RequestBody @Valid Usuarios usuarios) {
-        return service.cadastro(usuarios);
+    public ResponseEntity<?> cadastroUsuario(@RequestBody @Valid Usuarios usuarios) {
+        return usuariosService.cadastro(usuarios);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody Usuarios usuarios) throws Exception {
-        return service.login(usuarios);
+    public ResponseEntity<?> login(@RequestBody Usuarios usuarios) throws Exception {
+        return usuariosService.login(usuarios);
     }
 
 

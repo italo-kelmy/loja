@@ -1,6 +1,5 @@
 package com.loja_de_eletronicos.loja.Security;
 
-
 import com.loja_de_eletronicos.loja.Repository.UsuariosRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -21,8 +20,9 @@ import java.util.Optional;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
-    private final JwtUtil jwtUtil;
-    private final UsuariosRepository repository;
+    private JwtUtil jwtUtil;
+    private UsuariosRepository repository;
+
 
     @Autowired
     public JwtFilter(JwtUtil jwtUtil, UsuariosRepository repository) {
@@ -38,35 +38,24 @@ public class JwtFilter extends OncePerRequestFilter {
                 .filter(header -> header.startsWith("Bearer "))
                 .map(header -> header.substring(7))
                 .ifPresent(token -> {
-                    String usuarios = jwtUtil.extrairClaim(token, Claims::getSubject);
+                    String username = jwtUtil.extrairKey(token, Claims::getSubject);
 
-                    if (usuarios != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                        repository.findByUsuario(usuarios).ifPresent(usuarios1 -> {
-                            UserDetails user = User.builder()
-                                    .username(usuarios1.getUsuario())
-                                    .password(usuarios1.getSenha())
+                    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                        repository.findByUsuario(username).ifPresent(usuarios -> {
+                            UserDetails userDetails = User.builder()
+                                    .username(usuarios.getUsuario())
+                                    .password(usuarios.getSenha())
                                     .roles("USER")
                                     .build();
 
-                            if (jwtUtil.isTokenValid(token)) {
-                                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-
-                                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-                            }
-
+                            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
                         });
-
-
                     }
 
                 });
-
         filterChain.doFilter(request, response);
     }
-
 }
-

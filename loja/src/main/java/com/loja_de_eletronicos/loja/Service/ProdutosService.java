@@ -8,53 +8,41 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProdutosService {
-
-    private final ProdutosRepository repository;
+    private ProdutosRepository repository;
 
     @Autowired
     public ProdutosService(ProdutosRepository repository) {
         this.repository = repository;
     }
 
-    public List<ProdutosEletronicos> produtos() {
+    public List<ProdutosEletronicos> produtosEletronicosList() {
         return repository.findAll();
     }
 
 
-    public ResponseEntity<?> buscarPorNome(ProdutosEletronicos produtos) {
+    public ResponseEntity<?> pesquisarPorNome(String nome) {
+        Optional<ProdutosEletronicos> produto = repository.findByNome(nome);
+        if (produto.isPresent()) {
+            return ResponseEntity.ok(produto.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Produto não encontrado");
+        }
 
-        List<ProdutosEletronicos> produtosEletronicos = repository.findByNome(produtos.getNome());
+    }
 
+
+    public ResponseEntity<?> pesquisarPorCategoria(String categoria) {
+        List<ProdutosEletronicos> produtosEletronicos = repository.findByCategoria(categoria);
         if (produtosEletronicos.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Item não encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Categoria não disponível");
         }
 
         return ResponseEntity.ok(produtosEletronicos);
     }
-
-
-    public ResponseEntity<?> buscarPorCategoria(ProdutosEletronicos produtos) {
-
-        List<ProdutosEletronicos> produtosEletronicos = repository.findByCategoria(produtos.getCategoria());
-
-        if (produtosEletronicos.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Categoria não disponível");
-        }
-
-        return ResponseEntity.ok(produtosEletronicos);
-    }
-
-
-
-
-
-
-
-
-
 
 
 }

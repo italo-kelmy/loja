@@ -1,15 +1,12 @@
 package com.loja_de_eletronicos.loja.Entity;
 
-import jakarta.persistence.*;
 
-import java.util.Objects;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "carrinho")
 public class Carrinho {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String categoria;
     private String nome;
@@ -17,17 +14,17 @@ public class Carrinho {
     private double valor;
     private double valorTotal;
 
-
     public Carrinho(){
 
     }
 
-    public Carrinho( String categoria, String nome, int quantidade, double valor) {
+    public Carrinho(Long id, String categoria, String nome, int quantidade, double valor) {
+        this.id = id;
         this.categoria = categoria;
         this.nome = nome;
         this.quantidade = quantidade;
         this.valor = valor;
-        this.valorTotal = valor * quantidade;
+        this.valorTotal = this.valor * quantidade;
     }
 
     public Long getId() {
@@ -69,27 +66,4 @@ public class Carrinho {
     public void setValor(double valor) {
         this.valor = valor;
     }
-
-    public double getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Carrinho carrinho = (Carrinho) o;
-        return getQuantidade() == carrinho.getQuantidade() && Double.compare(getValor(), carrinho.getValor()) == 0 && Double.compare(getValorTotal(), carrinho.getValorTotal()) == 0 && Objects.equals(getId(), carrinho.getId()) && Objects.equals(getCategoria(), carrinho.getCategoria()) && Objects.equals(getNome(), carrinho.getNome());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getCategoria(), getNome(), getQuantidade(), getValor(), getValorTotal());
-    }
-
-
 }

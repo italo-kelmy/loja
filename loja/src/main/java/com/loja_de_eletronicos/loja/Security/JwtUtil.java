@@ -13,22 +13,19 @@ import java.util.function.Function;
 public class JwtUtil {
     private final JwtConfig jwtConfig;
 
-
     @Autowired
     public JwtUtil(JwtConfig jwtConfig) {
         this.jwtConfig = jwtConfig;
     }
 
-
-    public String generateKeys(UserDetails userDetails){
+    public String generateKey(UserDetails userDetails){
         return Jwts.builder()
                 .signWith(jwtConfig.secretKey())
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
+                .expiration(new Date(System.currentTimeMillis() + jwtConfig.getExpirarion()))
                 .compact();
     }
-
 
     public Claims extrairAllClaims(String key){
         return Jwts.parser()
@@ -39,18 +36,17 @@ public class JwtUtil {
     }
 
 
-    public <T> T extrairClaim(String key, Function<Claims, T> resolver){
+    public <T> T extrairKey(String key, Function<Claims, T> resolver){
         return resolver.apply(extrairAllClaims(key));
     }
 
-
-    public boolean validadeClaims(String key, UserDetails userDetails){
-        String usuario = extrairClaim(key, Claims::getSubject);
-        return usuario.equals(userDetails.getUsername()) && isTokenValid(key);
+    public boolean validadToken(String key, UserDetails userDetails){
+        String usuario = extrairKey(key, Claims::getSubject);
+        return usuario.equals(userDetails.getUsername()) && isToken(key);
     }
 
-    public boolean isTokenValid(String key) {
-        return extrairClaim(key, Claims::getExpiration).after(new Date());
+    public boolean isToken(String key) {
+        return extrairKey(key, Claims::getExpiration).before(new Date());
     }
 
 

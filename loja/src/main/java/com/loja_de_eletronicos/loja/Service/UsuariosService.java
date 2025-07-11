@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UsuariosService implements UserDetailsService {
-
     private final UsuariosRepository repository;
     private final SecurityConfig config;
     private final JwtUtil jwtUtil;
@@ -29,7 +28,6 @@ public class UsuariosService implements UserDetailsService {
         this.config = config;
         this.jwtUtil = jwtUtil;
     }
-
 
     public ResponseEntity<?> cadastro(Usuarios usuarios) {
 
@@ -44,13 +42,8 @@ public class UsuariosService implements UserDetailsService {
         return ResponseEntity.ok("Usuário cadastrado com sucesso");
     }
 
-
-    public String login(Usuarios usuarios) throws Exception {
-
-
-        config.manager(
-                        new AuthenticationConfiguration())
-                .authenticate(new UsernamePasswordAuthenticationToken(usuarios.getUsuario(), usuarios.getSenha()));
+    public ResponseEntity<?> login(Usuarios usuarios) throws Exception {
+        config.manager(new AuthenticationConfiguration()).authenticate(new UsernamePasswordAuthenticationToken(usuarios.getUsuario(), usuarios.getSenha()));
 
         Usuarios usuarios1 = repository.findByUsuario(usuarios.getUsuario()).orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
         UserDetails user = User.builder()
@@ -58,7 +51,7 @@ public class UsuariosService implements UserDetailsService {
                 .password(usuarios1.getSenha())
                 .roles("USER")
                 .build();
-        return jwtUtil.generateKeys(user);
+        return ResponseEntity.ok(jwtUtil.generateKey(user));
     }
 
 

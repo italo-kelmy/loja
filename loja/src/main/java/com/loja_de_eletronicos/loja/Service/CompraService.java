@@ -1,48 +1,49 @@
 package com.loja_de_eletronicos.loja.Service;
 
-import com.loja_de_eletronicos.loja.Entity.Carrinho;
 import com.loja_de_eletronicos.loja.Entity.Compra;
 import com.loja_de_eletronicos.loja.Entity.ProdutosEletronicos;
-import com.loja_de_eletronicos.loja.Entity.Usuarios;
 import com.loja_de_eletronicos.loja.Repository.CompraRepository;
 import com.loja_de_eletronicos.loja.Repository.ProdutosRepository;
-import com.loja_de_eletronicos.loja.Repository.UsuariosRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CompraService {
-
+    private final CompraRepository compraRepository;
     private final ProdutosRepository produtosRepository;
-    private final UsuariosRepository repository;
 
-    @Autowired
-    public CompraService(ProdutosRepository produtosRepository, UsuariosRepository repository) {
+    public CompraService(CompraRepository compraRepository, ProdutosRepository produtosRepository) {
+        this.compraRepository = compraRepository;
         this.produtosRepository = produtosRepository;
-        this.repository = repository;
     }
 
+    @Transactional
+    public ResponseEntity<?> comprar(Long id, int quantidade) {
 
-    public ResponseEntity<?> compraEfetuada(Compra compra, int quantidade) {
+        Optional<ProdutosEletronicos> produtoNaoEncontrado = produtosRepository.findById(id);
 
+        if (produtoNaoEncontrado.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
+        }
 
-        ProdutosEletronicos produtosEletronicos = produtosRepository.findById(compra.getId()).orElseThrow(()
-                -> new IllegalArgumentException("Id não encontrado"));
+        ProdutosEletronicos produtosEletronicos = produtoNaoEncontrado.get();
+        Compra compra = new Compra(produtosEletronicos.getId(), produtosEletronicos.getQuantidade());
 
 
         if (produtosEletronicos.getQuantidade() < quantidade) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estoque insufiente");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Quantidade insuficiente");
         }
-        int comprado = produtosEletronicos.getQuantidade() - quantidade;
-        produtosEletronicos.setQuantidade(comprado);
-        produtosRepository.save(produtosEletronicos);
 
-        return ResponseEntity.ok("Compra efetuada com sucesso");
+        int comprado = produtosEletronicos.getQuantidade() - quantidade;
+
+        produtosEletronicos.setQuantidade(comprado);
+        compraRepository.save(compra);
+        produtosRepository.save(produtosEletronicos);
+        return ResponseEntity.ok("Compra finalizada com sucesso");
     }
 
 }

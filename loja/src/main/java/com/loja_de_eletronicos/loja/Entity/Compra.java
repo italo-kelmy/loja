@@ -1,8 +1,8 @@
 package com.loja_de_eletronicos.loja.Entity;
+
 import jakarta.persistence.Entity;
+
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Compra {
@@ -11,8 +11,7 @@ public class Compra {
     private int quantidade;
 
 
-    public Compra(){
-
+    public Compra() {
     }
 
     public Compra(Long id, int quantidade) {
@@ -23,8 +22,6 @@ public class Compra {
     public Long getId() {
         return id;
     }
-
-
 
     public void setId(Long id) {
         this.id = id;
@@ -37,5 +34,4 @@ public class Compra {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
-    
 }

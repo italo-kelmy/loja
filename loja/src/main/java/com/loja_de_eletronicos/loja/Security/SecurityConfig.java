@@ -1,22 +1,27 @@
 package com.loja_de_eletronicos.loja.Security;
 
+import com.loja_de_eletronicos.loja.Entity.Usuarios;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
 @Configuration
 public class SecurityConfig {
-    private JwtFilter jwtFilter;
+
+    private final JwtFilter jwtFilter;
 
 
     @Autowired
@@ -27,25 +32,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(http -> http
-                        .requestMatchers("/cadastro", "/login").permitAll()
-                        .requestMatchers("/produtos").permitAll()
+                        .requestMatchers("/produtos", "/cadastro", "/login").permitAll()
                         .anyRequest().authenticated()
                 )
-
-                .requiresChannel(channelRequestMatcherRegistry -> channelRequestMatcherRegistry.anyRequest().requiresSecure())
-
-                .headers(header -> header.contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'"))
-
-                        .httpStrictTransportSecurity(https -> https
-                                .includeSubDomains(true)
-                                .preload(true)
-                                .maxAgeInSeconds(31536000)
-                        )
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+                .headers(header ->
+                        header.xssProtection(xxs -> xxs.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                                .contentSecurityPolicy(csp -> csp.policyDirectives("default-src 'self'; script-src 'self'; script-src-attr 'self'; style-src 'self'; img-src *; block-all-mixed-content"))
                 )
+
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessin -> sessin.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(sessio -> sessio.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .httpBasic(Customizer.withDefaults());
+
 
         return httpSecurity.build();
     }
@@ -57,9 +57,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager manager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+    public AuthenticationManager manager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
+
+
+
 
 
 }
