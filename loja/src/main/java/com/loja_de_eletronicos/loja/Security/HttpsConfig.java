@@ -1,4 +1,4 @@
-package com.loja_de_eletronicos.loja.Service;
+package com.loja_de_eletronicos.loja.Security;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;

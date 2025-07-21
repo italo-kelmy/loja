@@ -1,13 +1,12 @@
 package com.loja_de_eletronicos.loja.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "produtos_eletronicos")
 public class ProdutosEletronicos {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String categoria;
     private String nome;

@@ -33,6 +33,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(http -> http
                         .requestMatchers("/produtos", "/cadastro", "/login").permitAll()
+                        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
+                        .requestMatchers("/actuator/metrics").authenticated()
                         .anyRequest().authenticated()
                 )
                 .requiresChannel(channel -> channel.anyRequest().requiresSecure())

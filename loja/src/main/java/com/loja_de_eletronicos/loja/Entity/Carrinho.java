@@ -2,11 +2,14 @@ package com.loja_de_eletronicos.loja.Entity;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Carrinho {
     @Id
+
     private Long id;
     private String categoria;
     private String nome;
