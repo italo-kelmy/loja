@@ -34,7 +34,8 @@ O sistema permite que usuários se cadastrem, façam login e interajam com produ
 Foram implementados testes unitários com:
 
 - **JUnit 5**  
-- **Mockito**  
+- **Mockito**
+- Teste de Integração
 
 Cobertura de testes para:  
 - Usuário  
